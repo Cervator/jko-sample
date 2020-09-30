@@ -34,7 +34,7 @@ To continue from the installation to also create a master try the following:
 * `kubectl get secret jenkins-operator-credentials-example-a -o 'jsonpath={.data.password}' | base64 -d`
   * And this is how you get the password. Everything via Kubernetes secrets, sweet!
 
-At this point you should be tunnel via `kubectl` to the new master if you want to check it out, logging in with the user/pass retrieved above. You can switch the service to use a `LoadBalancer` by:
+At this point you should be able to tunnel via `kubectl` to the new master if you want to check it out, logging in with the user/pass retrieved above. You can switch the service to use a `LoadBalancer` to make it a little easier by following these steps:
 
 * Edit `jenkins_team_a.yaml` and uncomment the two lines at the end for `service.type`
 * `kubectl apply -f jenkins_team_a.yaml` again
@@ -49,3 +49,5 @@ If you create both the example masters you should be able to see them come onlin
   * The utility jobs include use of two additional plugins, which have been added to the YAML file for the master in the `plugins` section
 * Master B points to https://github.com/Cervator/job-dsl-gradle-example which creates some sample build jobs that may even run (and succeed?) before you even manage to get into the master to look!
 * Both masters will also have jobs from the JKO example, from https://github.com/jenkinsci/kubernetes-operator/tree/master/cicd
+
+The benefit of Job DSL, much like `Jenkinsfiles` and JCasC is version controlling everything! No more manually editing Jenkins jobs via UI, at least not beyond experimentation that then get baked into DSL scripts. It also means you can rebuild your entire Jenkins even without backups, although in that case you'd lose build history.

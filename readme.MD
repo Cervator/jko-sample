@@ -51,3 +51,24 @@ If you create both the example masters you should be able to see them come onlin
 * Both masters will also have jobs from the JKO example, from https://github.com/jenkinsci/kubernetes-operator/tree/master/cicd
 
 The benefit of Job DSL, much like `Jenkinsfiles` and JCasC is version controlling everything! No more manually editing Jenkins jobs via UI, at least not beyond experimentation that then get baked into DSL scripts. It also means you can rebuild your entire Jenkins even without backups, although in that case you'd lose build history.
+
+## Getting k8s agents
+
+Trying to get a regular pod template via k8s cloud seemed to not work right out of the box. It appeared that the associated role was lacking "event" permissions. Confirm with something like the following:
+
+`kubectl get role jenkins-operator-example-a -o yaml`
+
+If there are no `events` then simply adding the following snippet at the bottom seemed to make it work again
+
+```
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - get
+  - list
+  - watch
+```
+
+(you can open an editor with `kubectl edit role jenkins-operator-example-a` or by having the YAML written out somewhere)

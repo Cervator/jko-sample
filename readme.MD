@@ -58,7 +58,7 @@ Trying to get a regular pod template via k8s cloud seemed to not work right out 
 
 `kubectl get role jenkins-operator-example-a -o yaml`
 
-If there are no `events` then simply adding the following snippet at the bottom seemed to make it work again
+If there is no `events` section then simply add the following snippet:
 
 ```
 - apiGroups:
@@ -72,3 +72,5 @@ If there are no `events` then simply adding the following snippet at the bottom 
 ```
 
 (you can open an editor with `kubectl edit role jenkins-operator-example-a` or by having the YAML written out somewhere)
+
+If copying defined agents out of a Cloudbees Core/CI instance the `jenkins-agent` config map is created by the initial installer and available for review in the cluster.
